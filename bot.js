@@ -1,13 +1,13 @@
 const { Client, GatewayIntentBits } = require('discord.js');
 
-const TOKEN = 'token';  // Reemplaza con el token de tu bot
-const PREFIX = '!';  // Prefijo para los comandos
+const TOKEN = 'token';  
+const PREFIX = '!';  
 const axios = require('axios');
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.MessageContent // Este intent es el que causa el error si no está activado en el portal
+        GatewayIntentBits.MessageContent 
     ]
 });
 
@@ -17,28 +17,25 @@ client.once('ready', () => {
 });
 
 client.on('messageCreate', async (message) => {
-    // Evitar que el bot responda a sí mismo o a otros bots
+   
     if (message.author.bot) return;
 
-    // Verificar si el mensaje comienza con el prefijo
+    
     if (!message.content.startsWith(PREFIX)) return;
 
-    // Obtener el comando sin el prefijo
+   
     const args = message.content.slice(PREFIX.length).trim().split(/ +/);
     const command = args.shift().toLowerCase();
 
-    // Comando !ping
-    if (command === 'ping') {
-        await message.reply('🏓 Pong!');
-    }
 
-    // Comando !precio (aún sin funcionalidad, lo agregaremos después)
+
+   
     if (command === 'precio') {
         if (args.length === 0) {
             return await message.reply('⚠️ Debes especificar el ID del token. Ejemplo: `!precio ronin`');
         }
 
-        const tokenId = args[0].toLowerCase(); // Convertimos el ID a minúsculas para evitar errores
+        const tokenId = args[0].toLowerCase();
 
         try {
             const response = await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=${tokenId}&vs_currencies=usd`);
